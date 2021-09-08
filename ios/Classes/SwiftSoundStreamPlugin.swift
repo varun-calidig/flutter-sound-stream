@@ -221,6 +221,12 @@ public class SwiftSoundStreamPlugin: NSObject, FlutterPlugin {
     private func startRecording(_ result: @escaping FlutterResult) {
         resetEngineForRecord()
         startEngine()
+        let avAudioSession = AVAudioSession.sharedInstance()
+        var options: AVAudioSession.CategoryOptions = [AVAudioSession.CategoryOptions.defaultToSpeaker,AVAudioSession.CategoryOptions.mixWithOthers]
+        try? avAudioSession.setCategory(AVAudioSession.Category.playAndRecord, options: options)
+        try? avAudioSession.setMode(AVAudioSession.Mode.default)
+
+        try? avAudioSession.setActive(true)
         sendRecorderStatus(SoundStreamStatus.Playing)
         result(true)
     }
